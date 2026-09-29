@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="flex items-center space-x-3">
-                <button type="button" onclick="openAccountsModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center gap-2 border border-slate-700 cursor-pointer shadow-sm">
+                <button type="button" id="btnOpenModal" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center gap-2 border border-slate-700 cursor-pointer shadow-sm">
                     <i class="fa-solid fa-users-gear text-indigo-400"></i> Kelola Akun (<span id="accountBadgeCount">0</span>)
                 </button>
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -131,7 +131,7 @@
         <div id="activeToolView" class="hidden space-y-6">
             <div class="flex items-center justify-between bg-cardBg border border-slate-800 rounded-2xl p-4 shadow-lg">
                 <div class="flex items-center space-x-3">
-                    <button type="button" onclick="backToHome()" class="bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-200 transition flex items-center gap-2 cursor-pointer">
+                    <button type="button" id="btnBackHome" class="bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-200 transition flex items-center gap-2 cursor-pointer">
                         <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama
                     </button>
                     <div class="h-5 w-[1px] bg-slate-800"></div>
@@ -153,10 +153,10 @@
     <div id="accountsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div class="bg-cardBg border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
             <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                <h3 class="font-bold text-base flex items-center gap-2">
+                <h3 class="font-bold text-base flex items-center gap-2 text-white">
                     <i class="fa-solid fa-users-gear text-indigo-400"></i> Hubungkan Akun Sosmed (Auto Upload)
                 </h3>
-                <button type="button" onclick="closeAccountsModal()" class="text-slate-400 hover:text-white cursor-pointer text-lg"><i class="fa-solid fa-xmark"></i></button>
+                <button type="button" id="btnCloseModal" class="text-slate-400 hover:text-white cursor-pointer text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <p class="text-xs text-slate-300">Pilih platform, lalu masukkan email/username dan sandi akun Anda untuk menghubungkannya secara instan.</p>
@@ -180,8 +180,8 @@
                     <input type="password" id="inputAccPass" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••••••">
                 </div>
                 <div class="flex justify-end gap-2 pt-1">
-                    <button type="button" onclick="cancelConnectForm()" class="px-3 py-1.5 bg-slate-800 text-xs rounded-lg text-slate-300 cursor-pointer">Batal</button>
-                    <button type="button" onclick="saveConnectedAccount()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-medium rounded-lg text-white cursor-pointer">Simpan & Koneksikan</button>
+                    <button type="button" id="btnCancelForm" class="px-3 py-1.5 bg-slate-800 text-xs rounded-lg text-slate-300 cursor-pointer">Batal</button>
+                    <button type="button" id="btnSaveAcc" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-medium rounded-lg text-white cursor-pointer">Simpan & Koneksikan</button>
                 </div>
             </div>
 
@@ -193,7 +193,7 @@
             </div>
 
             <div class="flex justify-end pt-2">
-                <button type="button" onclick="closeAccountsModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-xl transition text-white cursor-pointer">Tutup</button>
+                <button type="button" id="btnCloseModalBottom" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-xl transition text-white cursor-pointer">Tutup</button>
             </div>
         </div>
     </div>
@@ -204,16 +204,51 @@
         let currentPlatform = '';
 
         function updateAccountBadge() {
-            document.getElementById('accountBadgeCount').innerText = accounts.length;
+            const badge = document.getElementById('accountBadgeCount');
+            if(badge) badge.innerText = accounts.length;
         }
 
-        function openAccountsModal() {
-            renderModalAccounts();
-            cancelConnectForm();
-            const modal = document.getElementById('accountsModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
+        // Event listener aman untuk tombol utama
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAccountBadge();
+
+            const btnOpenModal = document.getElementById('btnOpenModal');
+            const btnCloseModal = document.getElementById('btnCloseModal');
+            const btnCloseModalBottom = document.getElementById('btnCloseModalBottom');
+            const btnCancelForm = document.getElementById('btnCancelForm');
+            const btnSaveAcc = document.getElementById('btnSaveAcc');
+            const btnBackHome = document.getElementById('btnBackHome');
+
+            if(btnOpenModal) {
+                btnOpenModal.addEventListener('click', () => {
+                    renderModalAccounts();
+                    cancelConnectForm();
+                    const modal = document.getElementById('accountsModal');
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                });
+            }
+
+            if(btnCloseModal) {
+                btnCloseModal.addEventListener('click', closeAccountsModal);
+            }
+
+            if(btnCloseModalBottom) {
+                btnCloseModalBottom.addEventListener('click', closeAccountsModal);
+            }
+
+            if(btnCancelForm) {
+                btnCancelForm.addEventListener('click', cancelConnectForm);
+            }
+
+            if(btnSaveAcc) {
+                btnSaveAcc.addEventListener('click', saveConnectedAccount);
+            }
+
+            if(btnBackHome) {
+                btnBackHome.addEventListener('click', backToHome);
+            }
+        });
 
         function closeAccountsModal() {
             const modal = document.getElementById('accountsModal');
@@ -223,22 +258,32 @@
 
         function selectPlatformToConnect(platform) {
             currentPlatform = platform;
-            document.getElementById('formPlatformTitle.innerText = `Login Akun ${platform} untuk Auto-Upload`;
-            document.getElementById('formPlatformTitle').innerText = `Hubungkan Akun ${platform}`;
-            document.getElementById('connectFormBox').classList.remove('hidden');
-            document.getElementById('inputAccUser').value = '';
-            document.getElementById('inputAccPass').value = '';
-            document.getElementById('inputAccUser').focus();
+            const titleEl = document.getElementById('formPlatformTitle');
+            const formBox = document.getElementById('connectFormBox');
+            if(titleEl) titleEl.innerText = `Hubungkan Akun ${platform}`;
+            if(formBox) formBox.classList.remove('hidden');
+            
+            const userInput = document.getElementById('inputAccUser');
+            const passInput = document.getElementById('inputAccPass');
+            if(userInput) {
+                userInput.value = '';
+                userInput.focus();
+            }
+            if(passInput) passInput.value = '';
         }
 
         function cancelConnectForm() {
-            document.getElementById('connectFormBox').classList.add('hidden');
+            const formBox = document.getElementById('connectFormBox');
+            if(formBox) formBox.classList.add('hidden');
             currentPlatform = '';
         }
 
         function saveConnectedAccount() {
-            const username = document.getElementById('inputAccUser').value.trim();
-            const pass = document.getElementById('inputAccPass').value.trim();
+            const userInput = document.getElementById('inputAccUser');
+            const passInput = document.getElementById('inputAccPass');
+            
+            const username = userInput ? userInput.value.trim() : '';
+            const pass = passInput ? passInput.value.trim() : '';
 
             if(!username || !pass) {
                 alert('Mohon masukkan email/username dan sandi akun!');
@@ -264,6 +309,8 @@
 
         function renderModalAccounts() {
             const listEl = document.getElementById('modalAccountsList');
+            if(!listEl) return;
+            
             if(accounts.length === 0) {
                 listEl.innerHTML = `<div class="text-center py-4 text-slate-500 text-xs italic">Belum ada akun terhubung.</div>`;
                 return;
@@ -294,111 +341,128 @@
             const descEl = document.getElementById('activeToolDesc');
             const contentEl = document.getElementById('toolWorkspaceContent');
 
-            homeView.classList.add('hidden');
-            activeView.classList.remove('hidden');
+            if(homeView) homeView.classList.add('hidden');
+            if(activeView) activeView.classList.remove('hidden');
 
             if(toolKey === 'clipper') {
-                titleEl.innerText = "Clipper & FYP Short Generator";
-                descEl.innerText = "Tool pembuat video pendek otomatis lengkap dengan fitur Auto-Upload ke akun yang terhubung.";
-                contentEl.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-400 mb-1">Topik / Ide Konten Klip</label>
-                                    <textarea id="clipperPrompt" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Contoh: Rahasia psikologi agar orang lain mendengarkan Anda..."></textarea>
+                if(titleEl) titleEl.innerText = "Clipper & FYP Short Generator";
+                if(descEl) descEl.innerText = "Tool pembuat video pendek otomatis lengkap dengan fitur Auto-Upload ke akun yang terhubung.";
+                if(contentEl) {
+                    contentEl.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-400 mb-1">Topik / Ide Konten Klip</label>
+                                        <textarea id="clipperPrompt" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Contoh: Rahasia psikologi agar orang lain mendengarkan Anda..."></textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Target Akun untuk Auto-Upload</label>
+                                        <select id="clipperTarget" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none cursor-pointer">
+                                            <option value="">-- Pilih Akun Terhubung --</option>
+                                            ${accounts.map(a => `<option value="${a.username} (${a.platform})">${a.platform}:${a.username}</option>`).join('')}
+                                        </select>
+                                        ${accounts.length === 0 ? '<p class="text-[10px] text-amber-400 mt-1">Belum ada akun terhubung! Klik tombol "Kelola Akun" di atas dulu.</p>' : ''}
+                                    </div>
+                                    <button type="button" onclick="runClipperGenerator()" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-lg shadow-pink-600/30 cursor-pointer">
+                                        <i class="fa-solid fa-paper-plane mr-2"></i> Render & Auto-Upload ke Akun Pilihan
+                                    </button>
                                 </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Target Akun untuk Auto-Upload</label>
-                                    <select id="clipperTarget" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none cursor-pointer">
-                                        <option value="">-- Pilih Akun Terhubung --</option>
-                                        ${accounts.map(a => `<option value="${a.username} (${a.platform})">${a.platform}:${a.username}</option>`).join('')}
-                                    </select>
-                                    ${accounts.length === 0 ? '<p class="text-[10px] text-amber-400 mt-1">Belum ada akun terhubung! Klik tombol "Kelola Akun" di atas dulu.</p>' : ''}
+                                <div class="flex flex-col items-center justify-center bg-slate-950 border border-slate-800 rounded-2xl p-4">
+                                    <span class="text-xs text-slate-400 mb-2 font-medium">Pratinjau Hook Video (9:16)</span>
+                                    <div class="relative w-[180px] h-[320px] bg-slate-900 rounded-xl border-4 border-slate-700 flex flex-col justify-between p-3 select-none overflow-hidden">
+                                        <div class="absolute inset-0 bg-gradient-to-b from-pink-950 to-slate-950 flex items-center justify-center">
+                                            <i class="fa-solid fa-play text-white/20 text-4xl"></i>
+                                        </div>
+                                        <div class="relative z-10 text-center pt-4">
+                                            <span id="clipperHookDisplay" class="hook-font text-yellow-400 text-base font-black drop-shadow-md">WASPADA!</span>
+                                        </div>
+                                        <div class="relative z-10 bg-black/70 p-2 rounded-lg text-center">
+                                            <p id="clipperSubDisplay" class="text-[10px] text-slate-200">Menunggu proses...</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button type="button" onclick="runClipperGenerator()" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-lg shadow-pink-600/30 cursor-pointer">
-                                    <i class="fa-solid fa-paper-plane mr-2"></i> Render & Auto-Upload ke Akun Pilihan
-                                </button>
                             </div>
-                            <div class="flex flex-col items-center justify-center bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                                <span class="text-xs text-slate-400 mb-2 font-medium">Pratinjau Hook Video (9:16)</span>
-                                <div class="relative w-[180px] h-[320px] bg-slate-900 rounded-xl border-4 border-slate-700 flex flex-col justify-between p-3 select-none overflow-hidden">
-                                    <div class="absolute inset-0 bg-gradient-to-b from-pink-950 to-slate-950 flex items-center justify-center">
-                                        <i class="fa-solid fa-play text-white/20 text-4xl"></i>
+                            <div id="clipperResultBox" class="hidden space-y-4 pt-4 border-t border-slate-800">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-400 mb-1">Judul Video SEO</label>
+                                        <input type="text" id="clipperTitle" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
                                     </div>
-                                    <div class="relative z-10 text-center pt-4">
-                                        <span id="clipperHookDisplay" class="hook-font text-yellow-400 text-base font-black drop-shadow-md">WASPADA!</span>
-                                    </div>
-                                    <div class="relative z-10 bg-black/70 p-2 rounded-lg text-center">
-                                        <p id="clipperSubDisplay" class="text-[10px] text-slate-200">Menunggu proses...</p>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-400 mb-1">Hashtag Trending Real-Time</label>
+                                        <input type="text" id="clipperTags" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-pink-300 font-mono">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="clipperResultBox" class="hidden space-y-4 pt-4 border-t border-slate-800">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Judul Video SEO</label>
-                                    <input type="text" id="clipperTitle" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Hashtag Trending Real-Time</label>
-                                    <input type="text" id="clipperTags" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-pink-300 font-mono">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                    `;
+                }
             } else if(toolKey === 'kidsAnimation') {
-                titleEl.innerText = "Kids Rhymes & Visual Studio";
-                descEl.innerText = "Tool pembuat naskah lagu anak edukatif dan publikasi otomatis.";
-                contentEl.innerHTML = `
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Tema Lagu / Cerita Anak</label>
-                            <input type="text" id="kidsTheme" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" placeholder="Contoh: Belajar Mengenal Hewan Safari">
+                if(titleEl) titleEl.innerText = "Kids Rhymes & Visual Studio";
+                if(descEl) descEl.innerText = "Tool pembuat naskah lagu anak edukatif dan publikasi otomatis.";
+                if(contentEl) {
+                    contentEl.innerHTML = `
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Tema Lagu / Cerita Anak</label>
+                                <input type="text" id="kidsTheme" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" placeholder="Contoh: Belajar Mengenal Hewan Safari">
+                            </div>
+                            <button type="button" onclick="runKidsGenerator()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2.5 px-6 rounded-xl transition text-sm cursor-pointer">
+                                <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Buat Lirik & Auto-Publish ke YouTube
+                            </button>
+                            <div id="kidsResult" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                                <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Hasil Naskah & Status Upload</h4>
+                                <p class="text-xs text-slate-300 font-mono" id="kidsOutputText">Memproses...</p>
+                            </div>
                         </div>
-                        <button type="button" onclick="runKidsGenerator()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2.5 px-6 rounded-xl transition text-sm cursor-pointer">
-                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Buat Lirik & Auto-Publish ke YouTube
-                        </button>
-                        <div id="kidsResult" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
-                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Hasil Naskah & Status Upload</h4>
-                            <p class="text-xs text-slate-300 font-mono" id="kidsOutputText">Memproses...</p>
-                        </div>
-                    </div>
-                `;
+                    `;
+                }
             } else if(toolKey === 'customToolPlaceholder') {
-                titleEl.innerText = "Panduan Menambah Tool Baru di GitHub";
-                descEl.innerText = "Cara mudah mengintegrasikan tool custom buatan Anda ke dalam studio ini.";
-                contentEl.innerHTML = `
-                    <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
-                        <h4 class="font-bold text-sm text-indigo-400">Langkah Menambah Tool Baru:</h4>
-                        <ol class="list-decimal pl-5 space-y-2">
-                            <li>Buka repository GitHub Anda untuk proyek web studio ini.</li>
-                            <li>Buat file HTML baru (misal: <code>tool-seo.html</code>).</li>
-                            <li>Tambahkan kartu (card) baru di file utama <code>index.html</code> pada bagian menu grid hub.</li>
-                        </ol>
-                    </div>
-                `;
+                if(titleEl) titleEl.innerText = "Panduan Menambah Tool Baru di GitHub";
+                if(descEl) descEl.innerText = "Cara mudah mengintegrasikan tool custom buatan Anda ke dalam studio ini.";
+                if(contentEl) {
+                    contentEl.innerHTML = `
+                        <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
+                            <h4 class="font-bold text-sm text-indigo-400">Langkah Menambah Tool Baru:</h4>
+                            <ol class="list-decimal pl-5 space-y-2">
+                                <li>Buka repository GitHub Anda untuk proyek web studio ini.</li>
+                                <li>Buat file HTML baru (misal: <code>tool-seo.html</code>).</li>
+                                <li>Tambahkan kartu (card) baru di file utama <code>index.html</code> pada bagian menu grid hub.</li>
+                            </ol>
+                        </div>
+                    `;
+                }
             }
         }
 
         function backToHome() {
-            document.getElementById('activeToolView').classList.add('hidden');
-            document.getElementById('homeStudioView').classList.remove('hidden');
+            const activeView = document.getElementById('activeToolView');
+            const homeView = document.getElementById('homeStudioView');
+            if(activeView) activeView.classList.add('hidden');
+            if(homeView) homeView.classList.remove('hidden');
         }
 
         function runClipperGenerator() {
-            const prompt = document.getElementById('clipperPrompt').value.trim();
-            const target = document.getElementById('clipperTarget').value;
+            const promptEl = document.getElementById('clipperPrompt');
+            const targetEl = document.getElementById('clipperTarget');
+            const prompt = promptEl ? promptEl.value.trim() : '';
+            const target = targetEl ? targetEl.value : '';
+
             if(!prompt) return alert('Masukkan topik klip terlebih dahulu!');
             if(!target) return alert('Pilih akun tujuan untuk auto-upload!');
 
-            document.getElementById('clipperHookDisplay').innerText = "VIRAL!";
-            document.getElementById('clipperSubDisplay').innerText = `"${prompt.substring(0, 30)}..."`;
-            document.getElementById('clipperTitle').value = `RAHASIA TERBESAR: ${prompt} 🤯 #fyp`;
-            document.getElementById('clipperTags').value = `#fyp #viral #trending #foryou #xyzbca`;
-            document.getElementById('clipperResultBox').classList.remove('hidden');
+            const hookDisp = document.getElementById('clipperHookDisplay');
+            const subDisp = document.getElementById('clipperSubDisplay');
+            const titleRes = document.getElementById('clipperTitle');
+            const tagsRes = document.getElementById('clipperTags');
+            const resBox = document.getElementById('clipperResultBox');
+
+            if(hookDisp) hookDisp.innerText = "VIRAL!";
+            if(subDisp) subDisp.innerText = `"${prompt.substring(0, 30)}..."`;
+            if(titleRes) titleRes.value = `RAHASIA TERBESAR: ${prompt} 🤯 #fyp`;
+            if(tagsRes) tagsRes.value = `#fyp #viral #trending #foryou #xyzbca`;
+            if(resBox) resBox.classList.remove('hidden');
             
             setTimeout(() => {
                 alert(`SUKSES! Video berhasil dirender dan otomatis di-upload ke akun [${target}]!`);
@@ -406,13 +470,15 @@
         }
 
         function runKidsGenerator() {
-            const theme = document.getElementById('kidsTheme').value.trim();
+            const themeEl = document.getElementById('kidsTheme');
+            const theme = themeEl ? themeEl.value.trim() : '';
             if(!theme) return alert('Masukkan tema lagu anak!');
-            document.getElementById('kidsResult').classList.remove('hidden');
-            document.getElementById('kidsOutputTextinnerHTML`[Verse 1]<br>Mari kawan kita belajar bersama...<br>Mengenal ${theme} dengan gembira!<br><br>✅ Status: Berhasil dipublikasikan otomatis ke channel YouTube Anak.`);
+            
+            const kidsRes = document.getElementById('kidsResult');
+            const kidsOut = document.getElementById('kidsOutputText');
+            if(kidsRes) kidsRes.classList.remove('hidden');
+            if(kidsOut) kidsOut.innerHTML = `[Verse 1]<br>Mari kawan kita belajar bersama...<br>Mengenal ${theme} dengan gembira!<br><br>✅ Status: Berhasil dipublikasikan otomatis ke channel YouTube Anak.`;
         }
-
-        updateAccountBadge();
     </script>
 </body>
 </html>
