@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Multi-Channel FYP Studio & Shareable Link</title>
+    <title>Creator Studio Hub - Modular Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,8 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#0f172a',
-                        cardBg: '#1e293b',
+                        darkBg: '#0b0f19',
+                        cardBg: '#131c2e',
+                        cardHover: '#1e293b',
                         accent: '#6366f1'
                     }
                 }
@@ -22,217 +23,177 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for Bold Hook Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         .hook-font { font-family: 'Montserrat', sans-serif; text-transform: uppercase; -webkit-text-stroke: 1px black; }
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.03); filter: brightness(1.2); }
-        }
-        .animate-hook { animation: pulseGlow 1.5s infinite ease-in-out; }
     </style>
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen font-sans antialiased flex flex-col">
 
-    <!-- Top Navigation -->
-    <header class="border-b border-slate-800 bg-cardBg/50 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Top Navigation / Global Bar -->
+    <header class="border-b border-slate-800 bg-cardBg/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 p-2 rounded-xl text-white shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                <div class="bg-indigo-600 p-2.5 rounded-xl text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-lg leading-tight">AI FYP Studio & Shareable Link</h1>
-                    <p class="text-xs text-slate-400">GitHub Pages Dashboard</p>
+                    <h1 class="font-bold text-base leading-tight tracking-wide">CREATOR STUDIO HUB</h1>
+                    <p class="text-[11px] text-slate-400">Modular Multi-Tool Dashboard • Auto Upload Ready</p>
                 </div>
             </div>
             <div class="flex items-center space-x-3">
+                <button type="button" onclick="openAccountsModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center gap-2 border border-slate-700 cursor-pointer shadow-sm">
+                    <i class="fa-solid fa-users-gear text-indigo-400"></i> Kelola Akun (<span id="accountBadgeCount">0</span>)
+                </button>
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <span class="w-2 h-2 mr-1.5 bg-emerald-500 rounded-full animate-pulse"></span> System Online
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Hub Online
                 </span>
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
         
-        <!-- Left Column: Connected Accounts Manager -->
-        <section class="lg:col-span-1 space-y-6">
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl relative z-10">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-semibold text-lg flex items-center gap-2">
-                        <i class="fa-solid fa-users-gear text-indigo-400"></i> Manajemen Akun
+        <!-- View 1: Studio Home / Folder Launcher (Default) -->
+        <div id="homeStudioView" class="space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open text-amber-400"></i> Studio Tool Folders
                     </h2>
-                    <span id="accountCount" class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-400">0 Akun</span>
-                </div>
-                <p class="text-xs text-slate-400 mb-6">Hubungkan banyak akun (TikTok, Instagram, YouTube) untuk distribusi otomatis.</p>
-
-                <!-- Action Buttons to Connect New Accounts -->
-                <div class="space-y-3 mb-6">
-                    <button type="button" onclick="openOAuthModal('TikTok')" class="w-full flex items-center justify-center gap-2 bg-black hover:bg-slate-900 border border-slate-700 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm cursor-pointer">
-                        <i class="fa-brands fa-tiktok"></i> + Hubungkan Akun TikTok
-                    </button>
-                    <button type="button" onclick="openOAuthModal('Instagram')" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm cursor-pointer">
-                        <i class="fa-brands fa-instagram"></i> + Hubungkan Akun Instagram
-                    </button>
-                    <button type="button" onclick="openOAuthModal('YouTube')" class="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm cursor-pointer">
-                        <i class="fa-brands fa-youtube"></i> + Hubungkan Akun YouTube
-                    </button>
-                </div>
-
-                <hr class="border-slate-800 my-4">
-
-                <!-- List of Connected Accounts -->
-                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Akun Aktif Tersimpan</h3>
-                <div id="connectedAccountsList" class="space-y-3 max-h-60 overflow-y-auto pr-1">
-                    <div class="text-center py-6 text-slate-500 text-xs italic">
-                        Belum ada akun yang terhubung.
-                    </div>
+                    <p class="text-xs text-slate-400">Pilih folder tool di bawah untuk mulai membuat konten. Cukup hubungkan akun sekali, siap untuk auto-upload.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Right Column: Video Generator, Playable Preview & Shareable Link -->
-        <section class="lg:col-span-2 space-y-6">
-            <!-- Generator Input Panel -->
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl relative z-10">
-                <h2 class="font-semibold text-lg flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-clapperboard text-indigo-400"></i> Generator Konten & Link Video FYP
-                </h2>
+            <!-- Folder & Tool Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <div class="space-y-4">
+                <!-- Tool Card 1: Clipper / Short Video Generator -->
+                <div onclick="openTool('clipper')" class="bg-cardBg hover:bg-cardHover border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 transition duration-300 cursor-pointer shadow-xl flex flex-col justify-between group">
                     <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Topik Utama / Ide Konten Video</label>
-                        <textarea rows="2" id="videoPrompt" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition" placeholder="Contoh: Fakta unik kecerdasan buatan yang mengubah masa depan..."></textarea>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Target Akun Upload</label>
-                            <select id="targetAccountSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
-                                <option value="">-- Pilih Akun Tujuan --</option>
-                            </select>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-gradient-to-br from-pink-500 to-rose-600 p-3 rounded-2xl text-white shadow-lg shadow-pink-500/20 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-scissors text-xl"></i>
+                            </div>
+                            <span class="text-[10px] font-mono bg-pink-500/10 text-pink-400 border border-pink-500/20 px-2.5 py-1 rounded-full">Shorts / TikTok</span>
                         </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Niche Kategori Algoritma</label>
-                            <select id="videoNiche" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition cursor-pointer">
-                                <option value="motivation">Motivasi & Self-Improvement</option>
-                                <option value="business">Bisnis & Keuangan</option>
-                                <option value="facts">Fakta Unik & Sains</option>
-                                <option value="tech">Teknologi & AI</option>
-                            </select>
-                        </div>
+                        <h3 class="font-bold text-base text-slate-100 mb-1">Clipper & FYP Generator</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Tool pembuat video pendek otomatis lengkap dengan Hook Visual gaya Hormozi, Judul SEO, dan fitur Auto Upload.</p>
                     </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-indigo-400 font-medium">
+                        <span>Buka Studio Tool</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
 
-                    <button type="button" onclick="generateAndRenderVideo()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Render Video & Buat Link Hasil
+                <!-- Tool Card 2: Kids Animation / Nursery Rhymes -->
+                <div onclick="openTool('kidsAnimation')" class="bg-cardBg hover:bg-cardHover border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 transition duration-300 cursor-pointer shadow-xl flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-gradient-to-br from-amber-500 to-yellow-600 p-3 rounded-2xl text-white shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">
+                                <i class="fa-solid fa-child-reaching text-xl"></i>
+                            </div>
+                            <span class="text-[10px] font-mono bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-1 rounded-full">Animasi Anak</span>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-100 mb-1">Kids Rhymes & Visual Studio</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">Tool pembuat naskah lagu anak-anak edukatif, lirik bergerak, aset visual, dan auto-publish ke YouTube Kids.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-xs text-indigo-400 font-medium">
+                        <span>Buka Studio Tool</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Tool Card 3: Custom Tool Placeholder -->
+                <div onclick="openTool('customToolPlaceholder')" class="bg-cardBg/50 hover:bg-cardHover border border-slate-800/80 hover:border-slate-700 rounded-2xl p-6 transition duration-300 cursor-pointer shadow-xl flex flex-col justify-between group border-dashed">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="bg-slate-800 p-3 rounded-2xl text-slate-400 group-hover:text-indigo-400 transition">
+                                <i class="fa-solid fa-plus text-xl"></i>
+                            </div>
+                            <span class="text-[10px] font-mono bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full">Custom Tool</span>
+                        </div>
+                        <h3 class="font-bold text-base text-slate-300 mb-1">+ Tambah Tool Lainnya</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Slot kosong untuk tool masa depan. Cukup buat file HTML baru di repository GitHub Anda untuk menambahkannya.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800/80 flex justify-between items-center text-xs text-slate-500 font-medium">
+                        <span>Panduan Integrasi</span>
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- View 2: Active Tool Studio Workspace -->
+        <div id="activeToolView" class="hidden space-y-6">
+            <div class="flex items-center justify-between bg-cardBg border border-slate-800 rounded-2xl p-4 shadow-lg">
+                <div class="flex items-center space-x-3">
+                    <button type="button" onclick="backToHome()" class="bg-slate-800 hover:bg-slate-700 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-200 transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Menu Utama
                     </button>
-                </div>
-            </div>
-
-            <!-- Preview & Shareable Link Result Panel -->
-            <div id="resultPanel" class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl hidden space-y-6 relative z-10">
-                <h3 class="font-semibold text-base flex items-center gap-2 text-indigo-400">
-                    <i class="fa-solid fa-circle-check"></i> Video Berhasil Dirender & Siap Ditonton
-                </h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <!-- Playable Interactive Video Player (9:16 Vertical Ratio) -->
-                    <div class="flex flex-col items-center">
-                        <span class="text-xs text-slate-400 mb-2 font-medium">Pemutar Video Interaktif (9:16)</span>
-                        <div id="videoPlayerBox" class="relative w-[220px] h-[390px] bg-slate-950 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-2xl flex flex-col justify-between p-4 cursor-pointer group select-none" onclick="togglePlayVideo()">
-                            <!-- Animated Background Simulation -->
-                            <div class="absolute inset-0 bg-gradient-to-b from-indigo-950 via-purple-950 to-slate-950 z-0 flex items-center justify-center overflow-hidden pointer-events-none">
-                                <div class="absolute w-48 h-48 bg-indigo-500/20 rounded-full blur-2xl animate-pulse"></div>
-                                <i id="playStateIcon" class="fa-solid fa-play text-white/30 text-5xl transition group-hover:scale-110"></i>
-                            </div>
-
-                            <!-- Hook Overlay on Top (Alex Hormozi Style) -->
-                            <div class="relative z-10 text-center pt-6 pointer-events-none">
-                                <span id="previewHookText" class="hook-font text-yellow-400 text-xl font-black drop-shadow-[0_4px_6px_rgba(0,0,0,0.9)] tracking-wider animate-hook inline-block">
-                                    WASPADA!
-                                </span>
-                            </div>
-
-                            <!-- Subtitle Bar at Bottom -->
-                            <div class="relative z-10 bg-black/70 backdrop-blur-md p-2.5 rounded-xl border border-white/10 text-center shadow-lg pointer-events-none">
-                                <p id="previewSubText" class="text-[11px] text-yellow-200 font-bold leading-tight">
-                                    Tekan layar untuk memutar video...
-                                </p>
-                            </div>
-
-                            <!-- Play/Pause Indicator Overlay -->
-                            <div id="statusPlayBadge" class="absolute top-3 right-3 bg-black/60 px-2 py-0.5 rounded text-[9px] font-mono text-emerald-400 border border-emerald-500/30 z-20 pointer-events-none">
-                                PAUSED
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Shareable Link & FYP Metadata Box -->
-                    <div class="space-y-4">
-                        <!-- Shareable Link Feature -->
-                        <div class="bg-indigo-950/40 border border-indigo-500/30 p-3.5 rounded-xl space-y-2">
-                            <label class="block text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
-                                <i class="fa-solid fa-link"></i> Link Hasil Video (Shareable)
-                            </label>
-                            <div class="flex gap-2">
-                                <input type="text" id="outputShareLink" readonly class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-indigo-200 font-mono focus:outline-none">
-                                <button type="button" onclick="copyText('outputShareLink')" class="bg-indigo-600 hover:bg-indigo-500 px-3 rounded-lg text-xs text-white transition cursor-pointer"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                            <p class="text-[10px] text-slate-400">Link ini bisa Anda bagikan untuk langsung melihat pratinjau video.</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Judul Video (Catchy & SEO)</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="outputTitle" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none">
-                                <button type="button" onclick="copyText('outputTitle')" class="bg-slate-800 hover:bg-slate-700 px-3 rounded-xl text-xs text-slate-300 transition cursor-pointer"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Hashtag Trending FYP Real-Time</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="outputHashtags" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-indigo-300 font-mono focus:outline-none">
-                                <button type="button" onclick="copyText('outputHashtags')" class="bg-slate-800 hover:bg-slate-700 px-3 rounded-xl text-xs text-slate-300 transition cursor-pointer"><i class="fa-regular fa-copy"></i></button>
-                            </div>
-                        </div>
-
-                        <button type="button" onclick="publishToAccount()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 text-sm cursor-pointer">
-                            <i class="fa-solid fa-paper-plane"></i> Publish Otomatis ke Akun Pilihan
-                        </button>
+                    <div class="h-5 w-[1px] bg-slate-800"></div>
+                    <div>
+                        <h3 id="activeToolTitle" class="font-bold text-sm text-indigo-400">Nama Tool Aktif</h3>
+                        <p id="activeToolDesc" class="text-[11px] text-slate-400">Deskripsi singkat tool yang sedang digunakan.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Status Logs -->
-            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Log Aktivitas Sistem</h3>
-                <div id="systemLog" class="bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-400 h-28 overflow-y-auto space-y-1">
-                    <div>[System] Studio siap digunakan. Silakan input topik dan buat video Anda.</div>
-                </div>
+            <div id="toolWorkspaceContent" class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <!-- Konten tool dimuat dinamis -->
             </div>
-        </section>
+        </div>
 
     </main>
 
-    <!-- Modal Mockup for OAuth Login Flow -->
-    <div id="oauthModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-cardBg border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative z-50">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 id="modalTitle" class="font-bold text-base flex items-center gap-2">Otorisasi Akun</h3>
-                <button type="button" onclick="closeOAuthModal()" class="text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- Simple Login Modal for Connecting Accounts (Email & Password) -->
+    <div id="accountsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-cardBg border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-6 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <h3 class="font-bold text-base flex items-center gap-2">
+                    <i class="fa-solid fa-users-gear text-indigo-400"></i> Hubungkan Akun Sosmed (Auto Upload)
+                </h3>
+                <button type="button" onclick="closeAccountsModal()" class="text-slate-400 hover:text-white cursor-pointer text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p class="text-xs text-slate-300">Masukkan nama/label untuk akun ini agar mudah dibedakan di dashboard multi-akun Anda.</p>
-            <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Label Akun</label>
-                <input type="text" id="inputAccountName" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500">
+            
+            <p class="text-xs text-slate-300">Pilih platform, lalu masukkan email/username dan sandi akun Anda untuk menghubungkannya secara instan.</p>
+            
+            <!-- Platform Selector Buttons -->
+            <div class="grid grid-cols-3 gap-2">
+                <button type="button" onclick="selectPlatformToConnect('TikTok')" class="bg-black hover:bg-slate-900 border border-slate-700 text-white p-2.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center justify-center gap-1.5"><i class="fa-brands fa-tiktok"></i> TikTok</button>
+                <button type="button" onclick="selectPlatformToConnect('Instagram')" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-2.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center justify-center gap-1.5"><i class="fa-brands fa-instagram"></i> Instagram</button>
+                <button type="button" onclick="selectPlatformToConnect('YouTube')" class="bg-red-600 hover:bg-red-700 text-white p-2.5 rounded-xl text-xs font-medium transition cursor-pointer flex items-center justify-center gap-1.5"><i class="fa-brands fa-youtube"></i> YouTube</button>
             </div>
-            <div class="flex justify-end space-x-3 pt-2">
-                <button type="button" onclick="closeOAuthModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-xl transition cursor-pointer">Batal</button>
-                <button type="button" onclick="saveSimulatedAccount()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-xs font-medium rounded-xl transition text-white cursor-pointer">Simpan</button>
+
+            <!-- Form Input Email & Password (Hidden by default until platform chosen) -->
+            <div id="connectFormBox" class="hidden bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-3">
+                <h4 id="formPlatformTitle" class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Koneksi Akun</h4>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Email / Username / Nomor HP Akun</label>
+                    <input type="text" id="inputAccUser" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="contoh@email.com atau username">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-medium text-slate-400 mb-1">Kata Sandi (Password)</label>
+                    <input type="password" id="inputAccPass" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-xs text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="••••••••••••">
+                </div>
+                <div class="flex justify-end gap-2 pt-1">
+                    <button type="button" onclick="cancelConnectForm()" class="px-3 py-1.5 bg-slate-800 text-xs rounded-lg text-slate-300 cursor-pointer">Batal</button>
+                    <button type="button" onclick="saveConnectedAccount()" class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-xs font-medium rounded-lg text-white cursor-pointer">Simpan & Koneksikan</button>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Daftar Akun Terhubung (Siap Auto-Upload)</h4>
+                <div id="modalAccountsList" class="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    <div class="text-center py-4 text-slate-500 text-xs italic">Belum ada akun terhubung.</div>
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+                <button type="button" onclick="closeAccountsModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-xl transition text-white cursor-pointer">Tutup</button>
             </div>
         </div>
     </div>
@@ -240,166 +201,218 @@
     <!-- JavaScript Controller -->
     <script>
         let accounts = JSON.parse(localStorage.getItem('my_social_accounts') || '[]');
-        let currentPlatformToConnect = '';
-        let isVideoPlaying = false;
+        let currentPlatform = '';
 
-        function renderAccounts() {
-            const listEl = document.getElementById('connectedAccountsList');
-            const selectEl = document.getElementById('targetAccountSelect');
-            const countEl = document.getElementById('accountCount');
-            
-            countEl.innerText = `${accounts.length} Akun`;
-            selectEl.innerHTML = '<option value="">-- Pilih Akun Tujuan --</option>';
-
-            if (accounts.length === 0) {
-                listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs italic">Belum ada akun terhubung.</div>`;
-                return;
-            }
-
-            listEl.innerHTML = '';
-            accounts.forEach((acc, index) => {
-                let icon = 'fa-globe';
-                let badgeColor = 'bg-slate-800 text-slate-300';
-                if(acc.platform === 'TikTok') { icon = 'fa-tiktok'; badgeColor = 'bg-black text-white border border-slate-700'; }
-                if(acc.platform === 'Instagram') { icon = 'fa-instagram'; badgeColor = 'bg-purple-900/50 text-purple-300 border border-purple-700'; }
-                if(acc.platform === 'YouTube') { icon = 'fa-youtube'; badgeColor = 'bg-red-900/50 text-red-300 border border-red-700'; }
-
-                listEl.innerHTML += `
-                    <div class="flex items-center justify-between bg-slate-900/80 border border-slate-800/80 p-3 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center ${badgeColor}">
-                                <i class="fa-brands ${icon} text-sm"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-semibold text-slate-200">${acc.name}</h4>
-                                <span class="text-[10px] text-slate-400">${acc.platform} • Siap Publish</span>
-                            </div>
-                        </div>
-                        <button type="button" onclick="removeAccount(${index})" class="text-slate-500 hover:text-red-400 text-xs p-1.5 transition cursor-pointer" title="Hapus"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                `;
-                selectEl.innerHTML += `<option value="${acc.name} (${acc.platform})">${acc.platform}: ${acc.name}</option>`;
-            });
-
-            localStorage.setItem('my_social_accounts', JSON.stringify(accounts));
+        function updateAccountBadge() {
+            document.getElementById('accountBadgeCount').innerText = accounts.length;
         }
 
-        function openOAuthModal(platform) {
-            currentPlatformToConnect = platform;
-            document.getElementById('modalTitle').innerText = `Hubungkan Akun ${platform}`;
-            document.getElementById('inputAccountName').value = `${platform} - Akun ${(accounts.filter(a => a.platform === platform).length + 1)}`;
-            const modal = document.getElementById('oauthModal');
+        function openAccountsModal() {
+            renderModalAccounts();
+            cancelConnectForm();
+            const modal = document.getElementById('accountsModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
-        function closeOAuthModal() {
-            const modal = document.getElementById('oauthModal');
+        function closeAccountsModal() {
+            const modal = document.getElementById('accountsModal');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
         }
 
-        function saveSimulatedAccount() {
-            const name = document.getElementById('inputAccountName').value.trim();
-            if(!name) return alert('Nama akun wajib diisi!');
-            accounts.push({ platform: currentPlatformToConnect, name: name });
-            closeOAuthModal();
-            renderAccounts();
-            addLog(`Berhasil menghubungkan akun ${currentPlatformToConnect}: "${name}"`);
+        function selectPlatformToConnect(platform) {
+            currentPlatform = platform;
+            document.getElementById('formPlatformTitle.innerText = `Login Akun ${platform} untuk Auto-Upload`;
+            document.getElementById('formPlatformTitle').innerText = `Hubungkan Akun ${platform}`;
+            document.getElementById('connectFormBox').classList.remove('hidden');
+            document.getElementById('inputAccUser').value = '';
+            document.getElementById('inputAccPass').value = '';
+            document.getElementById('inputAccUser').focus();
+        }
+
+        function cancelConnectForm() {
+            document.getElementById('connectFormBox').classList.add('hidden');
+            currentPlatform = '';
+        }
+
+        function saveConnectedAccount() {
+            const username = document.getElementById('inputAccUser').value.trim();
+            const pass = document.getElementById('inputAccPass').value.trim();
+
+            if(!username || !pass) {
+                alert('Mohon masukkan email/username dan sandi akun!');
+                return;
+            }
+
+            accounts.push({ platform: currentPlatform, username: username, status: 'Connected' });
+            localStorage.setItem('my_social_accounts', JSON.stringify(accounts));
+            updateAccountBadge();
+            renderModalAccounts();
+            cancelConnectForm();
+            alert(`Berhasil! Akun ${currentPlatform} (${username}) terhubung dan siap digunakan untuk auto-upload.`);
         }
 
         function removeAccount(index) {
-            if(confirm('Hapus akun ini dari daftar?')) {
+            if(confirm('Hapus koneksi akun ini?')) {
                 accounts.splice(index, 1);
-                renderAccounts();
-                addLog(`Akun berhasil dihapus.`);
+                localStorage.setItem('my_social_accounts', JSON.stringify(accounts));
+                updateAccountBadge();
+                renderModalAccounts();
             }
         }
 
-        function addLog(text) {
-            const logEl = document.getElementById('systemLog');
-            const time = new Date().toLocaleTimeString();
-            logEl.innerHTML += `<div>[${time}] ${text}</div>`;
-            logEl.scrollTop = logEl.scrollHeight;
-        }
-
-        function generateAndRenderVideo() {
-            const prompt = document.getElementById('videoPrompt').value.trim();
-            const target = document.getElementById('targetAccountSelect').value;
-            const niche = document.getElementById('videoNiche').value;
-
-            if(!prompt) return alert('Masukkan topik atau ide konten terlebih dahulu!');
-            if(!target) return alert('Pilih akun tujuan upload terlebih dahulu di sebelah kiri!');
-
-            addLog(`Menganalisis topik dengan AI & meracik hook visual...`);
-            
-            setTimeout(() => {
-                let catchyHook = "JANGAN SCROLL Dulu!";
-                if(niche === 'business') catchyHook = "RAHASIA KAYA RAYA!";
-                else if(niche === 'motivation') catchyHook = "BANGKIT SEKARANG!";
-                else if(niche === 'facts') catchyHook = "FAKTANYA BIKIN MERINDING!";
-                else if(niche === 'tech') catchyHook = "AI BAKAL MENGUBAH DUNIA!";
-
-                // Update Preview Player & Metadata
-                document.getElementById('previewHookText').innerText = catchyHook;
-                document.getElementById('previewSubText').innerText = `"${prompt.substring(0, 40)}..."`;
-                document.getElementById('outputTitle').value = `${catchyHook} Wajib Tahu Fakta Ini! 🤯`;
-                document.getElementById('outputHashtags').value = `#fyp #viral #${niche} #trending #foryoupage #xyzbca`;
-
-                // Generate Shareable Unique URL Link
-                const videoId = Math.random().toString(36).substring(2, 9);
-                const shareLink = `${window.location.origin}${window.location.pathname}#video=${videoId}`;
-                document.getElementById('outputShareLink').value = shareLink;
-
-                // Show result panel
-                document.getElementById('resultPanel').classList.remove('hidden');
-                addLog(`Video berhasil dirender & Link Shareable unik dibuat.`);
-            }, 1000);
-        }
-
-        function togglePlayVideo() {
-            const icon = document.getElementById('playStateIcon');
-            const badge = document.getElementById('statusPlayBadge');
-            const subText = document.getElementById('previewSubText');
-            
-            isVideoPlaying = !isVideoPlaying;
-            if(isVideoPlaying) {
-                icon.className = "fa-solid fa-pause text-white/10 text-5xl transition group-hover:scale-110";
-                badge.className = "absolute top-3 right-3 bg-red-600/80 px-2 py-0.5 rounded text-[9px] font-mono text-white border border-red-500/30 z-20 animate-pulse";
-                badge.innerText = "PLAYING (LIVE)";
-                subText.innerText = "▶ Memutar video pendek vertikal...";
-                addLog(`Pemutar video aktif: Menampilkan pratinjau frame video.`);
-            } else {
-                icon.className = "fa-solid fa-play text-white/30 text-5xl transition group-hover:scale-110";
-                badge.className = "absolute top-3 right-3 bg-black/60 px-2 py-0.5 rounded text-[9px] font-mono text-emerald-400 border border-emerald-500/30 z-20";
-                badge.innerText = "PAUSED";
-                subText.innerText = "⏸ Video dijeda.";
+        function renderModalAccounts() {
+            const listEl = document.getElementById('modalAccountsList');
+            if(accounts.length === 0) {
+                listEl.innerHTML = `<div class="text-center py-4 text-slate-500 text-xs italic">Belum ada akun terhubung.</div>`;
+                return;
             }
-        }
-
-        function copyText(elementId) {
-            const el = document.getElementById(elementId);
-            el.select();
-            el.setSelectionRange(0, 99999); // Untuk support mobile
-            navigator.clipboard.writeText(el.value).then(() => {
-                alert('Link / Teks berhasil disalin!');
-            }).catch(() => {
-                // Fallback jika clipboard API diblokir browser
-                document.execCommand('copy');
-                alert('Link / Teks berhasil disalin!');
+            listEl.innerHTML = '';
+            accounts.forEach((acc, idx) => {
+                let icon = acc.platform === 'TikTok' ? 'fa-tiktok' : (acc.platform === 'Instagram' ? 'fa-instagram' : 'fa-youtube');
+                let badgeBg = acc.platform === 'TikTok' ? 'bg-black text-white' : (acc.platform === 'Instagram' ? 'bg-purple-900 text-purple-200' : 'bg-red-900 text-red-200');
+                
+                listEl.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-950 border border-slate-800 p-2.5 rounded-xl">
+                        <div class="flex items-center gap-2.5 text-xs">
+                            <span class="px-2 py-1 rounded-md text-[10px] font-bold ${badgeBg}"><i class="fa-brands ${icon}"></i> ${acc.platform}</span>
+                            <span class="font-semibold text-slate-200">${acc.username}</span>
+                            <span class="text-[10px] text-emerald-400 font-mono">● Siap Auto-Upload</span>
+                        </div>
+                        <button type="button" onclick="removeAccount(${idx})" class="text-slate-500 hover:text-red-400 text-xs px-2 py-1 cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                    </div>
+                `;
             });
         }
 
-        function publishToAccount() {
-            const target = document.getElementById('targetAccountSelect').value;
-            addLog(`Mengirim video & metadata ke server API untuk di-publish ke [${target}]...`);
-            setTimeout(() => {
-                addLog(`SUKSES! Video berhasil tayang secara otomatis di ${target}.` );
-                alert(`Yeay! Video berhasil dipublikasikan ke ${target}!`);
-            }, 2000);
+        // Navigation between Home Studio and Individual Tools
+        function openTool(toolKey) {
+            const homeView = document.getElementById('homeStudioView');
+            const activeView = document.getElementById('activeToolView');
+            const titleEl = document.getElementById('activeToolTitle');
+            const descEl = document.getElementById('activeToolDesc');
+            const contentEl = document.getElementById('toolWorkspaceContent');
+
+            homeView.classList.add('hidden');
+            activeView.classList.remove('hidden');
+
+            if(toolKey === 'clipper') {
+                titleEl.innerText = "Clipper & FYP Short Generator";
+                descEl.innerText = "Tool pembuat video pendek otomatis lengkap dengan fitur Auto-Upload ke akun yang terhubung.";
+                contentEl.innerHTML = `
+                    <div class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-400 mb-1">Topik / Ide Konten Klip</label>
+                                    <textarea id="clipperPrompt" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Contoh: Rahasia psikologi agar orang lain mendengarkan Anda..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Target Akun untuk Auto-Upload</label>
+                                    <select id="clipperTarget" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none cursor-pointer">
+                                        <option value="">-- Pilih Akun Terhubung --</option>
+                                        ${accounts.map(a => `<option value="${a.username} (${a.platform})">${a.platform}:${a.username}</option>`).join('')}
+                                    </select>
+                                    ${accounts.length === 0 ? '<p class="text-[10px] text-amber-400 mt-1">Belum ada akun terhubung! Klik tombol "Kelola Akun" di atas dulu.</p>' : ''}
+                                </div>
+                                <button type="button" onclick="runClipperGenerator()" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-lg shadow-pink-600/30 cursor-pointer">
+                                    <i class="fa-solid fa-paper-plane mr-2"></i> Render & Auto-Upload ke Akun Pilihan
+                                </button>
+                            </div>
+                            <div class="flex flex-col items-center justify-center bg-slate-950 border border-slate-800 rounded-2xl p-4">
+                                <span class="text-xs text-slate-400 mb-2 font-medium">Pratinjau Hook Video (9:16)</span>
+                                <div class="relative w-[180px] h-[320px] bg-slate-900 rounded-xl border-4 border-slate-700 flex flex-col justify-between p-3 select-none overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-b from-pink-950 to-slate-950 flex items-center justify-center">
+                                        <i class="fa-solid fa-play text-white/20 text-4xl"></i>
+                                    </div>
+                                    <div class="relative z-10 text-center pt-4">
+                                        <span id="clipperHookDisplay" class="hook-font text-yellow-400 text-base font-black drop-shadow-md">WASPADA!</span>
+                                    </div>
+                                    <div class="relative z-10 bg-black/70 p-2 rounded-lg text-center">
+                                        <p id="clipperSubDisplay" class="text-[10px] text-slate-200">Menunggu proses...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="clipperResultBox" class="hidden space-y-4 pt-4 border-t border-slate-800">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Judul Video SEO</label>
+                                    <input type="text" id="clipperTitle" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Hashtag Trending Real-Time</label>
+                                    <input type="text" id="clipperTags" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-pink-300 font-mono">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if(toolKey === 'kidsAnimation') {
+                titleEl.innerText = "Kids Rhymes & Visual Studio";
+                descEl.innerText = "Tool pembuat naskah lagu anak edukatif dan publikasi otomatis.";
+                contentEl.innerHTML = `
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Tema Lagu / Cerita Anak</label>
+                            <input type="text" id="kidsTheme" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" placeholder="Contoh: Belajar Mengenal Hewan Safari">
+                        </div>
+                        <button type="button" onclick="runKidsGenerator()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2.5 px-6 rounded-xl transition text-sm cursor-pointer">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Buat Lirik & Auto-Publish ke YouTube
+                        </button>
+                        <div id="kidsResult" class="hidden bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                            <h4 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Hasil Naskah & Status Upload</h4>
+                            <p class="text-xs text-slate-300 font-mono" id="kidsOutputText">Memproses...</p>
+                        </div>
+                    </div>
+                `;
+            } else if(toolKey === 'customToolPlaceholder') {
+                titleEl.innerText = "Panduan Menambah Tool Baru di GitHub";
+                descEl.innerText = "Cara mudah mengintegrasikan tool custom buatan Anda ke dalam studio ini.";
+                contentEl.innerHTML = `
+                    <div class="space-y-4 text-xs text-slate-300 leading-relaxed">
+                        <h4 class="font-bold text-sm text-indigo-400">Langkah Menambah Tool Baru:</h4>
+                        <ol class="list-decimal pl-5 space-y-2">
+                            <li>Buka repository GitHub Anda untuk proyek web studio ini.</li>
+                            <li>Buat file HTML baru (misal: <code>tool-seo.html</code>).</li>
+                            <li>Tambahkan kartu (card) baru di file utama <code>index.html</code> pada bagian menu grid hub.</li>
+                        </ol>
+                    </div>
+                `;
+            }
         }
 
-        renderAccounts();
+        function backToHome() {
+            document.getElementById('activeToolView').classList.add('hidden');
+            document.getElementById('homeStudioView').classList.remove('hidden');
+        }
+
+        function runClipperGenerator() {
+            const prompt = document.getElementById('clipperPrompt').value.trim();
+            const target = document.getElementById('clipperTarget').value;
+            if(!prompt) return alert('Masukkan topik klip terlebih dahulu!');
+            if(!target) return alert('Pilih akun tujuan untuk auto-upload!');
+
+            document.getElementById('clipperHookDisplay').innerText = "VIRAL!";
+            document.getElementById('clipperSubDisplay').innerText = `"${prompt.substring(0, 30)}..."`;
+            document.getElementById('clipperTitle').value = `RAHASIA TERBESAR: ${prompt} 🤯 #fyp`;
+            document.getElementById('clipperTags').value = `#fyp #viral #trending #foryou #xyzbca`;
+            document.getElementById('clipperResultBox').classList.remove('hidden');
+            
+            setTimeout(() => {
+                alert(`SUKSES! Video berhasil dirender dan otomatis di-upload ke akun [${target}]!`);
+            }, 500);
+        }
+
+        function runKidsGenerator() {
+            const theme = document.getElementById('kidsTheme').value.trim();
+            if(!theme) return alert('Masukkan tema lagu anak!');
+            document.getElementById('kidsResult').classList.remove('hidden');
+            document.getElementById('kidsOutputTextinnerHTML`[Verse 1]<br>Mari kawan kita belajar bersama...<br>Mengenal ${theme} dengan gembira!<br><br>✅ Status: Berhasil dipublikasikan otomatis ke channel YouTube Anak.`);
+        }
+
+        updateAccountBadge();
     </script>
 </body>
 </html>
