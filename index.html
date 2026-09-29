@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt-to-Video & Auto-Upload Studio</title>
+    <title>AI Multi-Account Short Generator Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -12,12 +12,9 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            900: '#090d16',
-                            800: '#111827',
-                            700: '#1f2937',
-                            600: '#374151',
-                        }
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b',
+                        accent: '#6366f1'
                     }
                 }
             }
@@ -25,259 +22,251 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glow-indigo {
-            box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.4);
-        }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #111827; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
-    </style>
 </head>
-<body class="bg-dark-900 text-gray-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+<body class="bg-darkBg text-slate-100 min-h-screen font-sans antialiased flex flex-col">
 
-    <!-- Top Navigation Bar -->
-    <header class="glass-panel sticky top-0 z-40 border-b border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <!-- Top Navigation -->
+    <header class="border-b border-slate-800 bg-cardBg/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-violet-600 to-pink-600 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-                    <i class="fa-solid fa-wand-magic-sparkles text-white"></i>
+                <div class="bg-indigo-600 p-2 rounded-xl text-white shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-base tracking-tight bg-gradient-to-r from-white via-gray-200 to-indigo-300 bg-clip-text text-transparent">AI Short Video Generator Pro</h1>
-                    <p class="text-[11px] text-gray-400">Prompt-to-Shorts & Auto-Social Publisher</p>
+                    <h1 class="font-bold text-lg leading-tight">AI Multi-Channel Studio</h1>
+                    <p class="text-xs text-slate-400">GitHub Pages Dashboard</p>
                 </div>
             </div>
-            
             <div class="flex items-center space-x-3">
-                <div class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> AI Engine Ready
-                </div>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 mr-1.5 bg-emerald-500 rounded-full animate-pulse"></span> System Online
+                </span>
             </div>
         </div>
     </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- Left Column: AI Prompt & Configuration Panel (5 Cols) -->
-        <div class="lg:col-span-5 flex flex-col space-y-5">
-            
-            <!-- AI Prompt Command Box -->
-            <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-2xl relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-terminal"></i> 1. Masukkan Perintah AI (Prompt)
+        <!-- Left Column: Connected Accounts Manager (Multi-Account) -->
+        <section class="lg:col-span-1 space-y-6">
+            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="font-semibold text-lg flex items-center gap-2">
+                        <i class="fa-solid fa-users-gear text-indigo-400"></i> Manajemen Akun
+                    </h2>
+                    <span id="accountCount" class="text-xs bg-slate-800 px-2.5 py-1 rounded-full text-slate-400">0 Akun</span>
+                </div>
+                <p class="text-xs text-slate-400 mb-6">Hubungkan beberapa akun sekaligus untuk tiap platform (TikTok, Instagram, YouTube).</p>
+
+                <!-- Action Buttons to Connect New Accounts -->
+                <div class="space-y-3 mb-6">
+                    <button onclick="openOAuthModal('TikTok')" class="w-full flex items-center justify-center gap-2 bg-black hover:bg-slate-900 border border-slate-700 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm">
+                        <i class="fa-brands fa-tiktok"></i> + Hubungkan Akun TikTok
+                    </button>
+                    <button onclick="openOAuthModal('Instagram')" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm">
+                        <i class="fa-brands fa-instagram"></i> + Hubungkan Akun Instagram
+                    </button>
+                    <button onclick="openOAuthModal('YouTube')" class="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-medium py-2.5 px-4 rounded-xl transition text-sm shadow-sm">
+                        <i class="fa-brands fa-youtube"></i> + Hubungkan Akun YouTube
+                    </button>
+                </div>
+
+                <hr class="border-slate-800 my-4">
+
+                <!-- List of Connected Accounts -->
+                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Akun Aktif Tersimpan</h3>
+                <div id="connectedAccountsList" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                    <!-- Dynamic items rendered here -->
+                    <div class="text-center py-6 text-slate-500 text-xs italic">
+                        Belum ada akun yang terhubung. Klik tombol di atas untuk menambahkan akun.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Column: Video Generator & Cross-Post Controller -->
+        <section class="lg:col-span-2 space-y-6">
+            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h2 class="font-semibold text-lg flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-clapperboard text-indigo-400"></i> Buat & Distribusi Konten Otomatis
                 </h2>
-                <p class="text-xs text-gray-400 mb-4">Ketik topik video yang ingin dibuatkan AI secara otomatis tanpa upload file.</p>
                 
                 <div class="space-y-4">
                     <div>
-                        <textarea id="aiPromptInput" rows="4" placeholder="Contoh: Buatkan video short dan reels tentang fakta menarik yang belum diketahui oleh pemain bola legenda Zinedine Zidane..." class="w-full bg-dark-800 border border-gray-700 rounded-xl p-3 text-sm text-gray-200 focus:outline-none focus:border-indigo-500 transition resize-none"></textarea>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Topik / Naskah Video Pendek</label>
+                        <textarea rows="3" id="videoPrompt" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition" placeholder="Contoh: Fakta unik psikologi manusia tentang motivasi pagi..."></textarea>
                     </div>
 
-                    <!-- Quick Prompt Suggestions -->
-                    <div>
-                        <span class="text-[11px] text-gray-400 font-medium block mb-2">Contoh Cepat (Klik untuk isi):</span>
-                        <div class="flex flex-wrap gap-1.5">
-                            <button onclick="setPrompt(this)" class="text-[11px] bg-dark-800 hover:bg-dark-700 border border-gray-700/80 text-gray-300 px-2.5 py-1 rounded-lg transition">⚽ Fakta tersembunyi Lionel Messi</button>
-                            <button onclick="setPrompt(this)" class="text-[11px] bg-dark-800 hover:bg-dark-700 border border-gray-700/80 text-gray-300 px-2.5 py-1 rounded-lg transition">🏆 3 Momen magis Cristiano Ronaldo</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Pilih Target Akun Upload</label>
+                            <select id="targetAccountSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition">
+                                <option value="">-- Pilih Akun Tujuan --</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Gaya Suara AI (Voiceover)</label>
+                            <select class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500 transition">
+                                <option>Indonesian Male - Energetic</option>
+                                <option>Indonesian Female - Calm & Pro</option>
+                                <option>Deep Voice - Narration</option>
+                            </select>
                         </div>
                     </div>
+
+                    <button onclick="simulatePublish()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rocket"></i> Render & Publish Otomatis
+                    </button>
                 </div>
             </div>
 
-            <!-- Video Style & Voice Configurations -->
-            <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-xl space-y-4">
-                <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                    <i class="fa-solid fa-sliders"></i> 2. Pengaturan Gaya Video & Suara
-                </h2>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-[11px] font-medium text-gray-400 mb-1">Gaya Suara AI (Voiceover)</label>
-                        <select id="voiceStyle" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-indigo-500">
-                            <option value="pria_tegas">Pria - Energik & Tegas</option>
-                            <option value="pria_misterius">Pria - Misterius/Dokumenter</option>
-                            <option value="wanita_ramah">Wanita - Ramah & Casual</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-[11px] font-medium text-gray-400 mb-1">Gaya Subtitle / Captions</label>
-                        <select id="captionStyle" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-indigo-500">
-                            <option value="hormozi">Alex Hormozi (Kuning Dinamis)</option>
-                            <option value="neon">Neon Glow (Cyberpunk)</option>
-                            <option value="minimal">Minimalist Clean (Putih)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-[11px] font-medium text-gray-400 mb-1">Platform Tujuan</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <label class="flex items-center justify-center gap-1.5 p-2 bg-dark-800 border border-gray-700 rounded-xl text-xs cursor-pointer hover:bg-dark-700">
-                            <input type="checkbox" checked class="accent-indigo-500" value="tiktok"> <i class="fa-brands fa-tiktok text-pink-400"></i> TikTok
-                        </label>
-                        <label class="flex items-center justify-center gap-1.5 p-2 bg-dark-800 border border-gray-700 rounded-xl text-xs cursor-pointer hover:bg-dark-700">
-                            <input type="checkbox" checked class="accent-indigo-500" value="ig"> <i class="fa-brands fa-instagram text-purple-400"></i> Reels
-                        </label>
-                        <label class="flex items-center justify-center gap-1.5 p-2 bg-dark-800 border border-gray-700 rounded-xl text-xs cursor-pointer hover:bg-dark-700">
-                            <input type="checkbox" checked class="accent-indigo-500" value="yt"> <i class="fa-brands fa-youtube text-red-500"></i> Shorts
-                        </label>
-                    </div>
-                </div>
-
-                <button onclick="startAiGeneration()" id="generateBtn" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg glow-indigo transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-microchip"></i> Generate Video dengan AI
-                </button>
-            </div>
-        </div>
-
-        <!-- Right Column: Live Preview & AI Copywriting Studio (7 Cols) -->
-        <div class="lg:col-span-7 flex flex-col space-y-5">
-            
-            <!-- Preview & Status Screen -->
-            <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-2xl flex flex-col items-center justify-center relative min-h-[420px] overflow-hidden">
-                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
-
-                <!-- Initial Empty State -->
-                <div id="previewPlaceholder" class="text-center p-6 space-y-3 z-10">
-                    <div class="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 mx-auto flex items-center justify-center text-indigo-400 text-2xl">
-                        <i class="fa-solid fa-clapperboard"></i>
-                    </div>
-                    <h3 class="font-semibold text-white text-sm">Belum Ada Video yang Dibuat</h3>
-                    <p class="text-xs text-gray-400 max-w-xs">Masukkan perintah di sebelah kiri lalu klik tombol Generate untuk mulai meracik video otomatis.</p>
-                </div>
-
-                <!-- Loading State (Hidden by Default) -->
-                <div id="loadingState" class="hidden text-center p-6 space-y-4 z-10">
-                    <div class="w-16 h-16 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin mx-auto"></div>
-                    <div>
-                        <h4 class="font-bold text-white text-sm" id="loadingStepText">AI Sedang Meriset Script & Fakta Bola...</h4>
-                        <p class="text-xs text-gray-400 mt-1">Mohon tunggu sebentar, sistem sedang merender video vertikal 9:16.</p>
-                    </div>
-                </div>
-
-                <!-- Result Player Screen (Hidden by Default) -->
-                <div id="resultContainer" class="hidden w-full flex flex-col items-center z-10 space-y-3">
-                    <div class="relative w-48 sm:w-56 aspect-[9/16] bg-black rounded-xl overflow-hidden shadow-2xl border border-gray-700 flex items-center justify-center group">
-                        <!-- Simulated Video Background Gradient -->
-                        <div class="absolute inset-0 bg-gradient-to-b from-indigo-900/60 via-purple-900/40 to-black/90 flex flex-col justify-between p-4">
-                            <div class="flex justify-between items-center text-[10px] text-white/70 font-mono">
-                                <span>▶ 00:35 / 00:45</span>
-                                <span class="bg-red-600 px-1.5 py-0.5 rounded text-[9px] font-bold">HD 9:16</span>
-                            </div>
-                            
-                            <!-- Subtitle Overlay Simulation -->
-                            <div class="text-center pb-6">
-                                <span class="bg-black/70 text-yellow-300 px-2 py-1 rounded font-black text-xs uppercase tracking-wide shadow-lg border border-yellow-500/30">
-                                    "Fakta gila yang ditutup-tutupi!"
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-lg shadow-lg">
-                                <i class="fa-solid fa-play ml-0.5"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="text-xs text-emerald-400 font-medium"><i class="fa-solid fa-circle-check"></i> Video Berhasil Dirender Oleh AI</span>
+            <!-- Status Logs -->
+            <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Log Aktivitas Sistem</h3>
+                <div id="systemLog" class="bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-xs text-slate-400 h-32 overflow-y-auto space-y-1">
+                    <div>[System] Dashboard siap digunakan. Silakan hubungkan akun Anda di sebelah kiri.</div>
                 </div>
             </div>
+        </section>
 
-            <!-- AI Copywriting & Auto-Upload Panel (Muncul Setelah Video Jadi) -->
-            <div id="copywritingPanel" class="glass-panel rounded-2xl p-5 sm:p-6 shadow-xl space-y-4 opacity-50 pointer-events-none transition-all">
-                <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
-                    <i class="fa-solid fa-pen-nib"></i> 3. AI Generated Copywriting & Auto-Upload
-                </h2>
-
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-[11px] font-medium text-gray-400 mb-1">Hook & Judul Otomatis</label>
-                        <input type="text" id="aiTitle" value="Rahasia besar Zinedine Zidane yang jarang diketahui orang! 🔥" class="w-full bg-dark-800 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-indigo-500">
-                    </div>
-
-                    <div>
-                        <label class="block text-[11px] font-medium text-gray-400 mb-1">Deskripsi & Hashtag Tertarget</label>
-                        <textarea id="aiDescription" rows="2" class="w-full bg-dark-800 border border-gray-700 rounded-xl p-3 text-xs text-gray-200 focus:outline-none focus:border-indigo-500 resize-none">Legenda sepak bola dunia dengan skill setara masterclass. Simak video ini sampai habis! #Zidane #SepakBola #FootballShorts #FaktaUnik #FYP</textarea>
-                    </div>
-
-                    <div class="pt-2">
-                        <button onclick="triggerAutoUpload()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> Auto-Upload ke TikTok, Reels, & Shorts Sekarang
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </main>
 
-    <!-- JavaScript Application Logic -->
-    <script>
-        function setPrompt(btn) {
-            document.getElementById('aiPromptInput').value = btn.textContent.replace(/^[⚽🏆]\s*/, '');
-        }
+    <!-- Modal Mockup for OAuth Login Flow -->
+    <div id="oauthModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-cardBg border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="modalTitle" class="font-bold text-base flex items-center gap-2">Otorisasi Akun</h3>
+                <button onclick="closeOAuthModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <p class="text-xs text-slate-300">Simulasi Hubungkan Akun: Berikan nama unik untuk akun ini (misal: <em>Akun Utama</em> atau <em>Akun Cadangan 2</em>) agar Anda bisa membedakannya.</p>
+            <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Nama / Label Akun</label>
+                <input type="text" id="inputAccountName" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Contoh: TikTok Bisnis 01">
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeOAuthModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-medium rounded-xl transition">Batal</button>
+                <button onclick="saveSimulatedAccount()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-xs font-medium rounded-xl transition text-white">Simpan & Hubungkan</button>
+            </div>
+        </div>
+    </div>
 
-        function startAiGeneration() {
-            const promptVal = document.getElementById('aiPromptInput').value.trim();
-            if (!promptVal) {
-                alert('Silakan ketik perintah (prompt) terlebih dahulu pada kotak teks.');
+    <!-- JavaScript Controller -->
+    <script>
+        let accounts = JSON.parse(localStorage.getItem('my_social_accounts') || '[]');
+        let currentPlatformToConnect = '';
+
+        function renderAccounts() {
+            const listEl = document.getElementById('connectedAccountsList');
+            const selectEl = document.getElementById('targetAccountSelect');
+            const countEl = document.getElementById('accountCount');
+            
+            countEl.innerText = `${accounts.length} Akun`;
+            selectEl.innerHTML = '<option value="">-- Pilih Akun Tujuan --</option>';
+
+            if (accounts.length === 0) {
+                listEl.innerHTML = `<div class="text-center py-6 text-slate-500 text-xs italic">Belum ada akun yang terhubung. Klik tombol di atas untuk menambahkan akun.</div>`;
                 return;
             }
 
-            const previewPlaceholder = document.getElementById('previewPlaceholder');
-            const loadingState = document.getElementById('loadingState');
-            const resultContainer = document.getElementById('resultContainer');
-            const generateBtn = document.getElementById('generateBtn');
-            const loadingStepText = document.getElementById('loadingStepText');
-            const copywritingPanel = document.getElementById('copywritingPanel');
+            listEl.innerHTML = '';
+            accounts.forEach((acc, index) => {
+                // Render list item
+                let icon = 'fa-globe';
+                let badgeColor = 'bg-slate-800 text-slate-300';
+                if(acc.platform === 'TikTok') { icon = 'fa-tiktok'; badgeColor = 'bg-black text-white border border-slate-700'; }
+                if(acc.platform === 'Instagram') { icon = 'fa-instagram'; badgeColor = 'bg-purple-900/50 text-purple-300 border border-purple-700'; }
+                if(acc.platform === 'YouTube') { icon = 'fa-youtube'; badgeColor = 'bg-red-900/50 text-red-300 border border-red-700'; }
 
-            previewPlaceholder.classList.add('hidden');
-            resultContainer.classList.add('hidden');
-            loadingState.classList.remove('hidden');
-            generateBtn.disabled = true;
+                listEl.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-900/80 border border-slate-800/80 p-3 rounded-xl">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center ${badgeColor}">
+                                <i class="fa-brands ${icon} text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-slate-200">${acc.name}</h4>
+                                <span class="text-[10px] text-slate-400">${acc.platform} • Terhubung</span>
+                            </div>
+                        </div>
+                        <button onclick="removeAccount(${index})" class="text-slate-500 hover:text-red-400 text-xs p-1.5 transition" title="Hapus Akun">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
 
-            // Simulasi Langkah Proses AI
-            const steps = [
-                "AI Sedang Menganalisis Perintah & Meriset Script...",
-                "Menghasilkan Suara AI (Voiceover) Berkualitas Tinggi...",
-                "Mencari Stok Video Arsip & Gambar Relevan...",
-                "Menggabungkan Subtitle Dinamis & Musik Latar...",
-                "Rendering Final Video Vertikal Selesai!"
-            ];
+                // Render options in select dropdown
+                selectEl.innerHTML += `<option value="${acc.name} (${acc.platform})">${acc.platform}: ${acc.name}</option>`;
+            });
 
-            let currentStep = 0;
-            const interval = setInterval(() => {
-                currentStep++;
-                if (currentStep < steps.length) {
-                    loadingStepText.textContent = steps[currentStep];
-                } else {
-                    clearInterval(interval);
-                    loadingState.classList.add('hidden');
-                    resultContainer.classList.remove('hidden');
-                    generateBtn.disabled = false;
+            localStorage.setItem('my_social_accounts', JSON.stringify(accounts));
+        }
 
-                    // Aktifkan panel copywriting
-                    copywritingPanel.classList.remove('opacity-50', 'pointer-events-none');
-                }
+        function openOAuthModal(platform) {
+            currentPlatformToConnect = platform;
+            document.getElementById('modalTitle').innerHTML = `<i class="fa-brands fa-fa-${platform.toLowerCase()}"></i> Hubungkan Akun ${platform}`;
+            document.getElementById('inputAccountName').value = `${platform} - Akun ${(accounts.filter(a => a.platform === platform).length + 1)}`;
+            document.getElementById('oauthModal').classList.remove('hidden');
+            document.getElementById('oauthModal').classList.add('flex');
+        }
+
+        function closeOAuthModal() {
+            document.getElementById('oauthModal').classList.remove('flex');
+            document.getElementById('oauthModal').classList.add('hidden');
+        }
+
+        function saveSimulatedAccount() {
+            const name = document.getElementById('inputAccountName').value.trim();
+            if(!name) return alert('Nama akun tidak boleh kosong!');
+
+            accounts.push({
+                platform: currentPlatformToConnect,
+                name: name,
+                connectedAt: new Date().toLocaleDateString()
+            });
+
+            closeOAuthModal();
+            renderAccounts();
+            addLog(`Berhasil menghubungkan akun ${currentPlatformToConnect}: "${name}"`);
+        }
+
+        function removeAccount(index) {
+            if(confirm('Hapus sambungan akun ini dari dashboard?')) {
+                const removed = accounts.splice(index, 1);
+                renderAccounts();
+                addLog(`Akun "${removed[0].name}" berhasil dihapus.`);
+            }
+        }
+
+        function addLog(text) {
+            const logEl = document.getElementById('systemLog');
+            const time = new Date().toLocaleTimeString();
+            logEl.innerHTML += `<div>[${time}] ${text}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function simulatePublish() {
+            const prompt = document.getElementById('videoPrompt').value.trim();
+            const target = document.getElementById('targetAccountSelect').value;
+
+            if(!prompt) return alert('Masukkan topik atau naskah video terlebih dahulu!');
+            if(!target) return alert('Pilih salah satu akun tujuan upload!');
+
+            addLog(`Memulai proses rendering video untuk topik: "${prompt.substring(0, 25)}..."`);
+            setTimeout(() => {
+                addLog(`Video berhasil dirender ke format vertikal 9:16.`);
             }, 1000);
+            setTimeout(() => {
+                addLog(`Mengirim video secara otomatis ke akun [${target}]...`);
+            }, 2500);
+            setTimeout(() => {
+                addLog(`SUKSES! Video terpublikasi ke ${target}.`);
+                alert(`Yeay! Konten berhasil di-publish ke ${target}!`);
+            }, 4000);
         }
 
-        function triggerAutoUpload() {
-            const title = document.getElementById('aiTitle').value;
-            alert(`Berhasil! Video telah dijadwalkan dan dikirim otomatis menggunakan Hook, Judul, dan Hashtag ke akun TikTok, Instagram Reels, dan YouTube Shorts pribadi Anda.\n\nJudul: "${title}"`);
-        }
+        // Initialize on load
+        renderAccounts();
     </script>
 </body>
 </html>
